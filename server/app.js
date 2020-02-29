@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const morgan = require('morgan');
 const axios = require('axios');
@@ -20,9 +22,9 @@ app.use(morgan('dev'));
 // http://www.omdbapi.com/?t=godzilla
 
 app.get('/', (req, res) => {
-    console.log('req.query: ', req.params)
+    console.log('req.query: ', req.query)
     if(req.query.i) {
-        instance.get(`http://www.omdbapi.com/?i=${req.query.i}&apikey=7195af58`)
+        instance.get(`http://www.omdbapi.com/?i=${req.query.i}&apikey=${process.env.OMDB_API_KEY}`)
             .then(data => {
                 console.log('cache status: ', cache !== {})
                 res.send(data.data);
